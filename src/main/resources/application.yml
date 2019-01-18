@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: excel-report-service
+thread:
+  pool:
+    initial: 16
+    max: 64
+
+activemq:
+  url: tcp://localhost:61616
+  username: admin
+  password: ENC(anz73AIkhRw+cNLFhp+oqw==)
+  queue:
+    processing: processing
+
+ftp:
+  host: localhost
+  port: 21
+  username: admin
+  password: ENC(anz73AIkhRw+cNLFhp+oqw==)
+
+request:
+  date:
+    format: yyyy-MM-dd HH:mm:ss
+
+fetch:
+  size:
+    movie: 50
+
+logging.level.com.dzytsiuk.excelreportservice.service.impl.client.MovielandClient: DEBUG
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 160000000
+        readTimeout: 160000000
+server:
+  port: 8082
