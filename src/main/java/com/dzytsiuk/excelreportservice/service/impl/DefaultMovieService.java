@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,11 +19,6 @@ public class DefaultMovieService implements MovieService {
         this.movielandClient = movielandClient;
     }
 
-    public List<ReportMovie> fallback(){
-        return new ArrayList<>();
-    }
-
-   // @HystrixCommand(fallbackMethod = "fallback")
     @Override
     public List<ReportMovie>  getMovies(Integer page, Integer count, ReportParameter reportParameter) {
         log.info("Start sending request to get {} movies on page {} with parameters {}",

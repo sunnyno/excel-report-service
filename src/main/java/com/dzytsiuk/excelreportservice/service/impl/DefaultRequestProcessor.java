@@ -24,6 +24,8 @@ import java.util.concurrent.ExecutorService;
 @Service
 public class DefaultRequestProcessor implements RequestProcessor {
     private static final MessagePostProcessor REPLY_MESSAGE_POST_PROCESSOR = new ReplyMessagePostProcessor();
+    private static final TypeReference<List<ReportRequest>> LIST_TYPE_REF = new TypeReference<List<ReportRequest>>() {
+    };
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private final ExecutorService executor;
@@ -46,8 +48,7 @@ public class DefaultRequestProcessor implements RequestProcessor {
     @JmsListener(destination = "processing", selector = "format = 'xlsx'")
     @Override
     public void processReportRequests(List<ReportRequest> reportRequests) {
-        List<ReportRequest> list = objectMapper.convertValue(reportRequests, new TypeReference<List<ReportRequest>>() {
-        });
+        List<ReportRequest> list = objectMapper.convertValue(reportRequests, LIST_TYPE_REF);
         for (ReportRequest reportRequest : list) {
             CompletableFuture.supplyAsync(() -> generateReport(reportRequest), executor)
                     .thenAccept(inputStream -> saveToFtp(inputStream, reportRequest))
